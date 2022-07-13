@@ -48,7 +48,10 @@ const PrivatePageLayout: React.FC<{ children: React.ReactNode }> = ({
                   <Link href="/">
                     <a>
                       <img
-                        src="/images/community-nfts-logo.png"
+                        src={
+                          process.env.NEXT_PUBLIC_BASE_PATH +
+                          "/images/community-nfts-logo.png"
+                        }
                         alt=""
                         className="w-20 -m-2"
                       />

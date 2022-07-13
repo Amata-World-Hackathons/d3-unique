@@ -192,7 +192,7 @@ const CollectionsViewPage: AppPage = () => {
                   <img
                     src={
                       selectedTokenData.data?.properties[0].value ||
-                      "https://placeimg.com/400/225/arch"
+                      "https://via.placeholder.com/320x256?text=No+Image"
                     }
                     alt="Shoes"
                     className="rounded-xl"

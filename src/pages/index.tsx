@@ -36,7 +36,10 @@ const Home: AppPage = () => {
       <main className="flex-1 flex flex-col items-center justify-center">
         <div className="prose">
           <img
-            src="/images/community-nfts-logo-full.jpg"
+            src={
+              process.env.NEXT_PUBLIC_BASE_PATH +
+              "/images/community-nfts-logo-full.jpg"
+            }
             alt=""
             className="m-auto h-96"
           />
