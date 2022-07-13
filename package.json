@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "export:gh-pages": "NEXT_PUBLIC_BASE_PATH=\"/d3-unique\" next build && next export",
     "lint": "next lint"
   },
   "dependencies": {
