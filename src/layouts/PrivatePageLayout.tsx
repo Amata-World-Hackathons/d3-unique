@@ -49,7 +49,7 @@ const PrivatePageLayout: React.FC<{ children: React.ReactNode }> = ({
                     <a>
                       <img
                         src={
-                          process.env.NEXT_PUBLIC_BASE_PATH +
+                          (process.env.NEXT_PUBLIC_BASE_PATH || "") +
                           "/images/community-nfts-logo.png"
                         }
                         alt=""

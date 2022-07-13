@@ -37,7 +37,7 @@ const Home: AppPage = () => {
         <div className="prose">
           <img
             src={
-              process.env.NEXT_PUBLIC_BASE_PATH +
+              (process.env.NEXT_PUBLIC_BASE_PATH || "") +
               "/images/community-nfts-logo-full.jpg"
             }
             alt=""
@@ -50,7 +50,7 @@ const Home: AppPage = () => {
         <div className="mt-8">
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-secondary"
             onClick={() => wallet.connect()}
           >
             Connect wallet

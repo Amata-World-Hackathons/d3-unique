@@ -89,7 +89,7 @@ const CollectionsViewPage: AppPage = () => {
   const allTokenIds = useMemo(() => {
     if (!tree.data) return [];
 
-    const result: string[] = [];
+    const result: number[] = [];
     const recursiveAddIds = (node: any) => {
       result.push(node.token.tokenId);
 
@@ -97,6 +97,8 @@ const CollectionsViewPage: AppPage = () => {
     };
 
     tree.data.forEach((item: any) => recursiveAddIds(item));
+
+    result.sort();
 
     return result;
   }, [tree]);
@@ -231,7 +233,12 @@ const CollectionsViewPage: AppPage = () => {
                           const snapshots = await getDocs(
                             query(
                               collection(db, "root-tokens"),
-                              where("collectionId", "==", collectionId)
+                              where("collectionId", "==", collectionId),
+                              where(
+                                "tokenId",
+                                "==",
+                                parseInt(selectedToken.tokenId, 10)
+                              )
                             )
                           );
 
