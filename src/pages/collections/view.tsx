@@ -292,7 +292,7 @@ const CollectionsViewPage: AppPage = () => {
                     </a>
                   </div>
 
-                  <p className="text-sm">
+                  {/* <p className="text-sm">
                     Owner:{" "}
                     {selectedTokenData.data ? (
                       <a href="">
@@ -301,7 +301,7 @@ const CollectionsViewPage: AppPage = () => {
                     ) : (
                       "???"
                     )}
-                  </p>
+                  </p> */}
 
                   <div className="card-actions justify-end items-center">
                     <label
