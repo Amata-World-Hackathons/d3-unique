@@ -6,12 +6,12 @@ import { useForm, FormProvider } from "react-hook-form";
 import { AppPage } from "@src/types";
 import { FormField, TextareaFormField } from "@src/components/forms/FormField";
 import { useConnectedWallet } from "@src/contexts/Wallet";
-import { COLLECTION_ORIGINALS, useFirestore } from "@src/contexts/Firebase";
+import { COLLECTION_COLLECTIONS, useFirestore } from "@src/contexts/Firebase";
 import { useRouter } from "next/router";
 import { useUniqueNetwork } from "@src/contexts/UniqueNetwork";
 import { useState } from "react";
 
-const OriginalsMintPage: AppPage = () => {
+const CollectionsMintPage: AppPage = () => {
   const db = useFirestore();
   const uniq = useUniqueNetwork();
   const router = useRouter();
@@ -41,14 +41,14 @@ const OriginalsMintPage: AppPage = () => {
                 tokenPrefix: data.symbol,
               });
 
-              await addDoc(collection(db, COLLECTION_ORIGINALS), {
+              await addDoc(collection(db, COLLECTION_COLLECTIONS), {
                 ...data,
                 owner: wallet.account.address,
                 collectionId: collectionId,
               });
 
               router.push({
-                pathname: "/originals/view",
+                pathname: "/collections/view",
                 query: { cid: collectionId },
               });
             })(e).catch((err) => {
@@ -112,8 +112,8 @@ const OriginalsMintPage: AppPage = () => {
           ) : null}
 
           <div className="mt-4 flex flex-row justify-end gap-4">
-            <Link href="/originals">
-              <a className="btn btn-ghost">Back to Originals</a>
+            <Link href="/collections">
+              <a className="btn btn-ghost">Back to Collections</a>
             </Link>
 
             <button
@@ -131,4 +131,4 @@ const OriginalsMintPage: AppPage = () => {
   );
 };
 
-export default OriginalsMintPage;
+export default CollectionsMintPage;

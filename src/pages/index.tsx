@@ -11,7 +11,7 @@ const Home: AppPage = () => {
 
   useEffect(() => {
     if (wallet.isConnected) {
-      router.push(String(router.query.redirectTo || "/dashboard"));
+      router.push(String(router.query.redirectTo || "/collections"));
     } else if (router.query.redirectTo) {
       // try to connect automatically when visiting an unauthenticated page
       wallet.connect();

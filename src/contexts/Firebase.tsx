@@ -1,8 +1,7 @@
 import { getFirestore } from "firebase/firestore";
 import { initializeApp, FirebaseApp } from "firebase/app";
 
-export const COLLECTION_ORIGINALS = "originals";
-export const COLLECTION_COLLECTIONS = "collections";
+export const COLLECTION_COLLECTIONS = "originals";
 
 export const app: FirebaseApp =
   typeof window !== "undefined"

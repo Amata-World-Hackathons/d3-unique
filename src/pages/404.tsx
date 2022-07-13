@@ -7,7 +7,7 @@ const NotFoundPage: AppPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push("/dashboard");
+    router.push("/collections");
   }, [router]);
 
   return <Preloader />;

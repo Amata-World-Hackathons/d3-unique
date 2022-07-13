@@ -887,7 +887,7 @@ class UniqueHelper extends ChainHelperBase {
 
   async mintNFTToken(
     signer,
-    { collectionId, owner, properties },
+    { collectionId, owner, const_data, properties },
     label = "new token",
     transactionLabel = "api.tx.unique.createItem"
   ) {
@@ -898,6 +898,7 @@ class UniqueHelper extends ChainHelperBase {
         owner.Substrate || owner.Ethereum ? owner : { Substrate: owner },
         {
           nft: {
+            const_data,
             properties,
           },
         }

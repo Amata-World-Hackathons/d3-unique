@@ -37,7 +37,7 @@ const PrivatePageLayout: React.FC<{ children: React.ReactNode }> = ({
       <UniqueNetworkProvider>
         <div className="h-screen">
           <Head>
-            <title>Dashboard | Community NFTs</title>
+            <title>Community NFTs</title>
             <link rel="icon" href="/favicon.ico" />
           </Head>
 
@@ -63,39 +63,26 @@ const PrivatePageLayout: React.FC<{ children: React.ReactNode }> = ({
                     </a>
                   </Link>
                 </li>
-
-                <li>
-                  <Link href="/originals">
-                    <a className="btn btn-ghost normal-case text-lg">
-                      Originals
-                    </a>
-                  </Link>
-                </li>
               </ul>
 
               <div className="flex-none">
                 <div className="dropdown dropdown-end">
                   <label
                     tabIndex={0}
-                    className="btn btn-ghost btn-circle avatar"
+                    className="btn btn-ghost btn-circle flex flex-row items-center"
                   >
-                    <div className="w-10 rounded-full">
-                      <Identicon
-                        value={wallet.account.address}
-                        size={32}
-                        theme="polkadot"
-                      />
-                    </div>
+                    <Identicon
+                      value={wallet.account.address}
+                      size={32}
+                      theme="polkadot"
+                      className="cursor-pointer"
+                    />
                   </label>
 
                   <ul
                     tabIndex={0}
                     className="mt-3 p-2 shadow menu menu-compact dropdown-content rounded-box w-52"
                   >
-                    <li>
-                      <a>Something here</a>
-                    </li>
-
                     <li>
                       <a>Disconnect wallet</a>
                     </li>
@@ -104,8 +91,32 @@ const PrivatePageLayout: React.FC<{ children: React.ReactNode }> = ({
               </div>
             </nav>
 
-            <div className="flex-1 overflow-y-auto overflow-x-hidden">
-              {children}
+            <div className="flex flex-col grow shrink-0 min-h-screen overflow-y-auto overflow-x-hidden">
+              <div className="flex-1">{children}</div>
+
+              <footer className="flex p-4 flex-row justify-between items-center bg-white shadow-2xl">
+                <span>
+                  Powered by{" "}
+                  <a
+                    href="https://unique.network"
+                    target="_blank"
+                    rel="nofollow noreferrer"
+                    className="link link-primary no-underline"
+                  >
+                    Unique Network
+                  </a>{" "}
+                  — the NFT chain built for Polkadot and Kusama.
+                </span>
+
+                <a
+                  href="https://angelhack.notion.site/Polkadot-Hackathon-North-America-Edition-Participants-Guide-6e3e5168dca24b67a4d517fa4de5a73d"
+                  target="_blank"
+                  rel="noreferrer nofollow"
+                  className="link"
+                >
+                  Polkadot NA 2022
+                </a>
+              </footer>
             </div>
           </main>
         </div>

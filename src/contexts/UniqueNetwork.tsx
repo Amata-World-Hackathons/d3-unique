@@ -18,6 +18,24 @@ import { useConnectedWallet } from "./Wallet";
 
 const UNIQUE_WS_ENDPOINT = "wss://ws-opal.unique.network";
 
+const NFT_COLLECTION_SCHEMA = {
+  nested: {
+    onChainMetaData: {
+      nested: {
+        NFTMeta: {
+          fields: {
+            ipfsJson: {
+              id: 1,
+              rule: "required",
+              type: "string",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export interface UniqueNFTCollectionData {
   id: string;
   name: string | null;
@@ -41,6 +59,7 @@ export interface MintNFTCollectionOptions {
 export interface MintNFTTokenOptions {
   owner?: any;
   collectionId: string;
+  constData: Record<string, string>;
   properties: { key: string; value: any }[];
 }
 
@@ -82,43 +101,67 @@ export const UniqueNetworkProvider: React.FC<{
       mintNFTCollection: async (options) => {
         const injector = await web3FromSource(wallet.account.meta.source);
 
-        return uniqueHelper.mintNFTCollection(
-          {
-            address: wallet.account.address,
-            signer: injector.signer,
+        const signer = {
+          address: wallet.account.address,
+          signer: injector.signer,
+        };
+
+        const ret = await uniqueHelper.mintNFTCollection(signer, {
+          ...options,
+          permissions: {
+            nesting: {
+              tokenOwners: true,
+              collectionAdmin: true,
+            },
           },
-          {
-            ...options,
-            permissions: {
-              nesting: {
-                tokenOwners: true,
+          tokenPropertyPermissions: [
+            {
+              key: "imageUrl",
+              permission: {
+                mutable: false,
+                tokenOwner: true,
                 collectionAdmin: true,
               },
             },
-            tokenPropertyPermissions: [
-              {
-                key: "imageUrl",
-                permission: {
-                  mutable: false,
-                  tokenOwner: true,
-                  collectionAdmin: true,
-                },
-              },
-            ],
-          }
-        );
+          ],
+        });
+
+        // await uniqueHelper.signTransaction(
+        //   signer,
+        //   uniqueHelper.api.tx.unique.setConstOnChainSchema(
+        //     ret.collectionId,
+        //     JSON.stringify(NFT_COLLECTION_SCHEMA),
+        //     "api.tx.unique.setConstOnChainSchema"
+        //   )
+        // );
+
+        // await uniqueHelper.signTransaction(
+        //   signer,
+        //   uniqueHelper.api.tx.unique.setConstOnChainSchema(
+        //     ret.collectionId,
+        //     uniqueHelper.api.tx.unique.setSchemaVersion(
+        //       ret.collectionId,
+        //       "Unique"
+        //     ),
+        //     "api.tx.unique.setSchemaVersion"
+        //   )
+        // );
+
+        return ret;
       },
 
       mintNFTToken: async (options) => {
         const injector = await web3FromSource(wallet.account.meta.source);
+
+        const { constData, ...rest } = options;
 
         return uniqueHelper.mintNFTToken(
           {
             address: wallet.account.address,
             signer: injector.signer,
           },
-          { owner: wallet.account.address, ...options }
-        );
+          { owner: wallet.account.address, ...rest, const_data: constData }
+        ) as Promise<UniqueNFTToken>;
       },
 
       nestToken: async (tokenId, parentId) => {
@@ -161,11 +204,14 @@ export function useUniqueNFTCollectionRef(collectionId: string) {
   );
 }
 
-export function useUniqueTokenRef(collectionId: string, tokenId: string) {
+export function useUniqueTokenRef(
+  collectionId: string,
+  tokenId: string
+): UniqueNFTToken | undefined {
   const collectionRef = useUniqueNFTCollectionRef(collectionId);
 
-  return useMemo<UniqueNFTToken>(
-    () => collectionRef.getTokenObject(tokenId),
+  return useMemo(
+    () => (tokenId ? collectionRef.getTokenObject(tokenId) : undefined),
     [collectionRef, tokenId]
   );
 }
